@@ -7,24 +7,24 @@
 <style>
   :root {
     --bg: #050812;
-    --panel: rgba(10, 14, 26, 0.94);
+    --panel: rgba(10, 14, 26, 0.96);
+    --card: rgba(14, 18, 30, 0.92);
+    --col: rgba(12, 16, 28, 0.88);
     --cyan: #22d3ee;
     --magenta: #ec4899;
     --text: #f0f4fc;
     --muted: #949eb2;
+    --border: rgba(34, 211, 238, 0.28);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    width: 100%; height: 100%;
+    margin: 0; padding: 0;
     background: var(--bg);
     color: var(--text);
     font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow: hidden;
   }
-  /* GMod CEF: percentage height often collapses — pin to viewport */
   html {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -32,16 +32,15 @@
   body {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
   }
   body::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
     background:
-      linear-gradient(135deg, rgba(34,211,238,0.07) 0%, transparent 42%),
-      linear-gradient(225deg, rgba(236,72,153,0.07) 0%, transparent 48%);
+      linear-gradient(135deg, rgba(34,211,238,0.08) 0%, transparent 42%),
+      linear-gradient(225deg, rgba(236,72,153,0.08) 0%, transparent 48%);
     pointer-events: none;
     z-index: 0;
   }
@@ -67,48 +66,68 @@
   }
   .wrap {
     position: absolute;
-    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    top: 2.5%; left: 2.5%; right: 2.5%; bottom: 2.5%;
     border-top: 2px solid var(--cyan);
     border-bottom: 2px solid var(--cyan);
+    border-radius: 8px;
     background: var(--panel);
-    padding: 20px 26px 16px;
+    padding: 18px 22px 14px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 40px rgba(34,211,238,0.08);
+    box-shadow: 0 0 48px rgba(34,211,238,0.1), 0 0 80px rgba(236,72,153,0.05);
     z-index: 1;
     min-height: 0;
   }
   header {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
     margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(34,211,238,0.18);
     flex-shrink: 0;
   }
+  .logo-wrap {
+    position: relative;
+    width: 72px; height: 72px;
+    flex-shrink: 0;
+  }
+  .logo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 16px;
+    border: 1px solid rgba(236,72,153,0.45);
+    box-shadow: 0 0 0 1px rgba(34,211,238,0.35);
+    pointer-events: none;
+  }
   .logo {
-    width: 64px; height: 64px; border-radius: 14px;
-    object-fit: contain; flex-shrink: 0;
+    width: 72px; height: 72px; border-radius: 14px;
+    object-fit: contain; display: block;
     background: linear-gradient(135deg, var(--magenta), var(--cyan));
   }
   .logo-fallback {
     display: table-cell; text-align: center; vertical-align: middle;
     font-weight: 800; font-size: 18px; color: #050510;
-    width: 64px; height: 64px;
+    width: 72px; height: 72px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--magenta), var(--cyan));
   }
   h1 {
-    font-size: 30px; letter-spacing: 0.5px; font-weight: 700;
-    text-shadow: 1px 0 12px rgba(236,72,153,0.25);
+    font-size: 30px; letter-spacing: 0.4px; font-weight: 800;
+    text-shadow: 1px 0 14px rgba(236,72,153,0.28);
+    line-height: 1.15;
   }
   .sub {
     color: var(--cyan); font-size: 13px; margin-top: 6px;
-    text-transform: uppercase; letter-spacing: 0.6px;
+    text-transform: uppercase; letter-spacing: 0.55px;
+    opacity: 0.95;
   }
   .cols {
     flex: 1;
     display: -ms-grid;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 18px;
+    gap: 14px;
     min-height: 0;
     overflow: hidden;
   }
@@ -119,65 +138,153 @@
     flex-direction: column;
     overflow: hidden;
     height: 100%;
+    background: var(--col);
+    border: 1px solid rgba(34,211,238,0.16);
+    border-radius: 10px;
+    padding: 12px 12px 10px;
   }
   .col h2 {
-    color: var(--cyan); font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;
-    padding-bottom: 8px; margin-bottom: 10px;
-    border-bottom: 2px solid rgba(34,211,238,0.75);
-    display: inline-block; min-width: 72px; align-self: flex-start;
+    color: var(--cyan); font-size: 13px; text-transform: uppercase; letter-spacing: 0.55px;
+    padding: 0 0 8px 10px; margin-bottom: 10px;
+    border-bottom: 2px solid rgba(34,211,238,0.55);
+    align-self: flex-start;
     flex-shrink: 0;
+    position: relative;
+    font-weight: 700;
+  }
+  .col h2::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 2px;
+    width: 3px; height: 14px;
+    background: var(--magenta);
+    border-radius: 1px;
   }
   .col-body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding-right: 6px;
+    padding-right: 4px;
     scrollbar-width: thin;
     scrollbar-color: rgba(34,211,238,0.5) transparent;
   }
   .col p, .col li { color: var(--text); font-size: 13px; line-height: 1.55; opacity: 0.92; }
   .col ul { list-style: none; }
-  .col li { margin: 0 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col li {
+    margin: 0 0 8px;
+    padding: 8px 10px;
+    background: var(--card);
+    border: 1px solid rgba(34,211,238,0.14);
+    border-radius: 8px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
   .col a { color: var(--text); text-decoration: none; }
   .col a:hover { color: var(--cyan); }
   .rules-mini {
     margin-top: 14px; padding-top: 10px;
-    border-top: 1px solid rgba(34,211,238,0.25);
+    border-top: 1px solid rgba(34,211,238,0.2);
   }
   .rules-mini h3 {
-    color: var(--cyan); font-size: 12px; text-transform: uppercase;
-    letter-spacing: 0.4px; margin-bottom: 8px;
+    color: var(--cyan); font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.45px; margin-bottom: 8px; font-weight: 700;
   }
   .upd {
-    margin-bottom: 12px; padding-bottom: 10px;
-    border-bottom: 1px solid rgba(34,211,238,0.15);
+    margin-bottom: 10px;
+    padding: 10px 12px 10px 14px;
+    background: var(--card);
+    border: 1px solid rgba(34,211,238,0.14);
+    border-radius: 8px;
+    position: relative;
+  }
+  .upd::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    background: var(--magenta);
+    border-radius: 1px;
   }
   .upd-title {
-    font-weight: 700; font-size: 13px; color: var(--cyan); margin-bottom: 4px;
+    font-weight: 700; font-size: 13px; color: var(--cyan); margin-bottom: 5px;
   }
   .upd-body { font-size: 12px; line-height: 1.5; opacity: 0.92; }
   .staff-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 0; border-bottom: 1px solid rgba(34,211,238,0.15);
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    background: var(--card);
+    border: 1px solid rgba(34,211,238,0.14);
+    border-radius: 8px;
+    position: relative;
+  }
+  .staff-row::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 3px;
+    background: var(--staff-accent, var(--cyan));
+    border-radius: 1px;
   }
   .avatar {
-    width: 34px; height: 34px; border-radius: 6px; background: #1a2030;
-    border: 1px solid rgba(34,211,238,0.35); object-fit: cover; flex-shrink: 0;
+    width: 40px; height: 40px; border-radius: 8px; background: #1a2030;
+    border: 1px solid var(--staff-accent, rgba(34,211,238,0.45));
+    object-fit: cover; flex-shrink: 0;
   }
   .staff-name {
     font-weight: 700; font-size: 12px; text-transform: uppercase;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .staff-group { font-size: 11px; margin-top: 2px; color: var(--cyan); }
+  .staff-group { font-size: 11px; margin-top: 3px; color: var(--cyan); }
   .bar {
-    background: rgba(12,16,28,0.92); border: 1px solid rgba(34,211,238,0.4);
-    border-radius: 6px; padding: 10px 12px; margin-bottom: 8px;
+    background: var(--card);
+    border: 1px solid rgba(34,211,238,0.18);
+    border-radius: 8px; padding: 10px 12px; margin-bottom: 8px;
     display: flex; justify-content: space-between; gap: 10px; font-size: 12px;
   }
   .bar span:first-child { color: var(--muted); flex-shrink: 0; }
   .bar span:last-child {
     text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;
   }
+  .steam-cta {
+    display: block;
+    margin-top: 10px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text) !important;
+    background: linear-gradient(90deg, rgba(236,72,153,0.22), rgba(34,211,238,0.18));
+    border: 1px solid rgba(34,211,238,0.45);
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .steam-cta:hover {
+    background: linear-gradient(90deg, rgba(236,72,153,0.4), rgba(34,211,238,0.35));
+    border-color: var(--cyan);
+    color: #fff !important;
+  }
+  .steam-cta strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .steam-cta small {
+    display: block;
+    font-size: 11px;
+    color: var(--cyan);
+    opacity: 0.95;
+  }
+  .rewards {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: var(--card);
+    border: 1px solid rgba(34,211,238,0.14);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .rewards li { margin: 0; padding: 0; background: none; border: none; border-radius: 0; white-space: normal; }
   footer {
     flex-shrink: 0;
     margin-top: 12px;
@@ -199,8 +306,10 @@
     100% { width: 12%; margin-left: 88%; }
   }
   @media (max-width: 900px) {
-    .cols { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .wrap { top: 6px; left: 6px; right: 6px; bottom: 6px; padding: 12px; }
+    .cols { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .wrap { top: 1.5%; left: 1.5%; right: 1.5%; bottom: 1.5%; padding: 12px; }
+    .logo-wrap, .logo, .logo-fallback { width: 56px; height: 56px; }
+    h1 { font-size: 24px; }
   }
 </style>
 </head>
@@ -209,7 +318,9 @@
   <div class="tri tri-b"></div>
   <div class="wrap">
     <header>
-      <img class="logo" src="logo.png" alt="JGC" onerror="this.outerHTML='<div class=\'logo logo-fallback\'>JGC</div>';" />
+      <div class="logo-wrap">
+        <img class="logo" src="logo.png" alt="JGC" onerror="this.outerHTML='<div class=\'logo logo-fallback\'>JGC</div>';" />
+      </div>
       <div>
         <h1 id="title">JGC M:RP</h1>
         <div class="sub" id="subtitle">DU BETRITTST JETZT …</div>
@@ -241,6 +352,15 @@
           <div class="bar"><span>Max. Spieler</span><span id="maxp">…</span></div>
           <div class="bar"><span>Map</span><span id="map">…</span></div>
           <div class="bar"><span>Gamemode</span><span id="gm">jgc_rp</span></div>
+          <a class="steam-cta" id="steamCta" href="https://steamcommunity.com/groups/justgamingcommunityde" target="_blank" rel="noopener">
+            <strong>Steam-Gruppe beitreten</strong>
+            <small>Belohnungen · Community</small>
+          </a>
+          <ul class="rewards" id="rewards">
+            <li>• Einmalig: +5000$ und +150 XP</li>
+            <li>• Jeden Payday: +25% Gehalt und +15 XP</li>
+            <li>• Daily-Login: +500$ und +25 XP</li>
+          </ul>
         </div>
       </section>
     </div>
@@ -263,7 +383,8 @@
     staff: [
       { name: "Markgraf", group: "Communityleitung", steamid64: "", r: 236, g: 72, b: 153 }
     ],
-    show_staff: true
+    show_staff: true,
+    steam_group_url: "https://steamcommunity.com/groups/justgamingcommunityde"
   };
 
   var state = {
@@ -272,7 +393,8 @@
     servername: "",
     mapname: "",
     maxplayers: "",
-    gamemode: "jgc_rp"
+    gamemode: "jgc_rp",
+    steam_group_url: DEFAULTS.steam_group_url
   };
 
   function esc(s) {
@@ -317,17 +439,47 @@
       .catch(function () { /* keep empty placeholder */ });
   }
 
+  function ensureSteamInRules(rules, steamUrl) {
+    rules = (rules && rules.length) ? rules.slice() : [];
+    steamUrl = String(steamUrl || "");
+    if (!steamUrl) return rules;
+    var needle = "steamcommunity.com/groups/";
+    for (var i = 0; i < rules.length; i++) {
+      var u = String((rules[i] && rules[i].url) || "").toLowerCase();
+      if (u.indexOf(needle) !== -1) return rules;
+    }
+    rules.unshift({ label: "Steam-Gruppe", url: steamUrl });
+    return rules;
+  }
+
+  function applySteamCta(url) {
+    url = String(url || state.steam_group_url || DEFAULTS.steam_group_url || "");
+    var el = document.getElementById("steamCta");
+    if (!el) return;
+    if (!url) {
+      el.style.display = "none";
+      return;
+    }
+    el.style.display = "block";
+    el.href = url;
+  }
+
   function applyConfig(cfg) {
     cfg = cfg || {};
     state.title = cfg.title || DEFAULTS.title;
     state.subtitle_prefix = cfg.subtitle_prefix || DEFAULTS.subtitle_prefix;
+    state.steam_group_url = cfg.steam_group_url || cfg.steam_group || DEFAULTS.steam_group_url;
     document.getElementById("title").textContent = state.title;
     updateSubtitle();
+    applySteamCta(state.steam_group_url);
 
     var about = cfg.about || DEFAULTS.about;
     document.getElementById("about").innerHTML = nl2br(about);
 
-    var rules = (cfg.rules && cfg.rules.length) ? cfg.rules : DEFAULTS.rules;
+    var rules = ensureSteamInRules(
+      (cfg.rules && cfg.rules.length) ? cfg.rules : DEFAULTS.rules,
+      state.steam_group_url
+    );
     var rulesEl = document.getElementById("rules");
     rulesEl.innerHTML = rules.map(function (r, i) {
       var label = esc((i + 1) + ". " + (r.label || "Link"));
@@ -362,7 +514,7 @@
         var img = av
           ? '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" src="' + esc(av) + '" alt="" onerror="this.removeAttribute(\'src\')"/>'
           : '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" alt="" />';
-        return '<div class="staff-row">' + img +
+        return '<div class="staff-row" style="--staff-accent:' + col + '">' + img +
           '<div style="min-width:0"><div class="staff-name">' + esc(displayStaffName(s).toUpperCase()) +
           '</div><div class="staff-group" style="color:' + col + '">' + esc(s.group || "") +
           "</div></div></div>";
