@@ -4,6 +4,8 @@ Public Garry's Mod loading screen for **JGC M:RP** (Nato vs Russland).
 
 - Live URL: https://markgrafde.github.io/jgc-mrp-loading/
 - `index.html` reads `config.json` (cache-busted) and implements GMod `GameDetails(...)`.
+- Columns: **Über uns** (inkl. Regeln/Links) | **Updates** | **Team** | **Info**.
+- Default subtitle: `DU BETRITTST JETZT `.
 - GitHub Actions (`sync-loading.yml`) pulls `joinscreen.json` + `joinscreen_staff.json` from the gameserver via SFTP every 5 minutes and updates `config.json`.
 
 ## Server

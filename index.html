@@ -95,6 +95,22 @@
   .col li { margin: 0 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .col a { color: var(--text); text-decoration: none; }
   .col a:hover { color: var(--cyan); }
+  .rules-mini {
+    margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid rgba(34,211,238,0.25);
+  }
+  .rules-mini h3 {
+    color: var(--cyan); font-size: 13px; text-transform: uppercase;
+    letter-spacing: 0.4px; margin-bottom: 8px;
+  }
+  .upd {
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid rgba(34,211,238,0.15);
+  }
+  .upd-title {
+    font-weight: 700; font-size: 14px; color: var(--cyan); margin-bottom: 4px;
+  }
+  .upd-body { font-size: 13px; line-height: 1.5; opacity: 0.92; }
   .staff-row {
     display: flex; align-items: center; gap: 12px;
     padding: 10px 0; border-bottom: 1px solid rgba(34,211,238,0.15);
@@ -147,17 +163,23 @@
       <img class="logo" src="logo.png" alt="JGC" onerror="this.outerHTML='<div class=\'logo logo-fallback\'>JGC</div>';" />
       <div>
         <h1 id="title">JGC M:RP</h1>
-        <div class="sub" id="subtitle">YOU ARE NOW JOINING …</div>
+        <div class="sub" id="subtitle">DU BETRITTST JETZT …</div>
       </div>
     </header>
     <div class="cols">
       <section class="col">
         <h2>Über uns</h2>
-        <div class="col-body"><p id="about"></p></div>
+        <div class="col-body">
+          <p id="about"></p>
+          <div class="rules-mini">
+            <h3>Regeln / Links</h3>
+            <ul id="rules"></ul>
+          </div>
+        </div>
       </section>
       <section class="col">
-        <h2>Regeln</h2>
-        <div class="col-body"><ul id="rules"></ul></div>
+        <h2>Updates</h2>
+        <div class="col-body" id="updates"></div>
       </section>
       <section class="col">
         <h2>Team</h2>
@@ -182,7 +204,7 @@
 (function () {
   var DEFAULTS = {
     title: "JGC M:RP",
-    subtitle_prefix: "YOU ARE NOW JOINING ",
+    subtitle_prefix: "DU BETRITTST JETZT ",
     about: "Willkommen bei Just Gaming Community — Nato vs Russland Military-RP!\n\nWir sind eine deutschsprachige MRP-Community mit Fokus auf faires Spiel, Teamwork und glaubwürdige Militär-Atmosphäre.\n\nKein RDM, kein Cheating, kein FailRP — respektiere Mitspieler und das Team. Bei Fragen hilft dir das Team (F9 / !ticket).\n\nViel Spaß auf dem Server!",
     rules: [
       { label: "Website / Regelwerk", url: "https://justgaming.community" },
@@ -253,6 +275,19 @@
       return "<li>" + label + "</li>";
     }).join("");
 
+    var updates = (cfg.updates && cfg.updates.length) ? cfg.updates : (DEFAULTS.updates || []);
+    var updatesEl = document.getElementById("updates");
+    if (updatesEl) {
+      if (!updates.length) {
+        updatesEl.innerHTML = "<p style='color:var(--muted)'>Keine Updates.</p>";
+      } else {
+        updatesEl.innerHTML = updates.map(function (u) {
+          return '<div class="upd"><div class="upd-title">' + esc(u.title || "Update") +
+            '</div><div class="upd-body">' + nl2br(u.body || "") + "</div></div>";
+        }).join("");
+      }
+    }
+
     var staffEl = document.getElementById("staff");
     if (cfg.show_staff === false) {
       staffEl.innerHTML = "<p style='color:var(--muted)'>Team-Anzeige deaktiviert.</p>";
@@ -281,7 +316,7 @@
   function updateSubtitle() {
     var name = state.servername || "…";
     document.getElementById("subtitle").textContent =
-      String(state.subtitle_prefix || "YOU ARE NOW JOINING ").toUpperCase() + String(name).toUpperCase();
+      String(state.subtitle_prefix || "DU BETRITTST JETZT ").toUpperCase() + String(name).toUpperCase();
   }
 
   function setInfo() {

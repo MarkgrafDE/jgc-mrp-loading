@@ -76,10 +76,12 @@ for s in staff:
 
 out = {
     "title": cfg.get("title") or "JGC M:RP",
-    "subtitle_prefix": cfg.get("subtitle_prefix") or "YOU ARE NOW JOINING ",
+    "subtitle_prefix": cfg.get("subtitle_prefix") or "DU BETRITTST JETZT ",
     "about": cfg.get("about") or "",
     "rules": cfg.get("rules") or [],
+    "updates": cfg.get("updates") or [],
     "show_staff": cfg.get("show_staff", True),
+    "autoshow": cfg.get("autoshow", cfg.get("autoshow_hint", True)),
     "staff": out_staff,
     "hostname_default": "JGC M:RP",
     "updated_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
