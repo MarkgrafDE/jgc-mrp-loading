@@ -23,7 +23,7 @@
       "group": "Communityleitung",
       "r": 236,
       "steamid64": "76561198430371839",
-      "name": "Markgraf",
+      "name": "Communityleitung",
       "steamid": "STEAM_0:1:235053055"
     },
     {
@@ -43,7 +43,7 @@
       "group": "C-Manager",
       "r": 236,
       "steamid64": "76561198342149474",
-      "name": "ˢᴳ Abra Baba",
+      "name": "Unbekannt",
       "steamid": "STEAM_0:0:190941873"
     },
     {
@@ -58,5 +58,5 @@
     }
   ],
   "hostname_default": "JGC M:RP",
-  "updated_at": "2026-09-26T14:16:40Z"
+  "updated_at": "2026-09-26T14:18:55Z"
 }
