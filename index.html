@@ -493,7 +493,7 @@
     var updatesEl = document.getElementById("updates");
     if (updatesEl) {
       if (!updates.length) {
-        updatesEl.innerHTML = "<p style='color:var(--muted)'>Keine Updates.</p>";
+        updatesEl.innerHTML = "<div class=\"update-card\" style=\"padding:14px 12px\"><div class=\"update-title\">Noch keine Updates</div><div class=\"update-body\">Bald gibt’s hier Server-News.</div></div>";
       } else {
         updatesEl.innerHTML = updates.map(function (u) {
           return '<div class="upd"><div class="upd-title">' + esc(u.title || "Update") +
