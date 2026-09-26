@@ -1,0 +1,29 @@
+{
+  "title": "JGC M:RP",
+  "subtitle_prefix": "YOU ARE NOW JOINING ",
+  "about": "Willkommen bei Just Gaming Community — Nato vs Russland Military-RP!\n\nWir sind eine deutschsprachige MRP-Community mit Fokus auf faires Spiel, Teamwork und glaubwürdige Militär-Atmosphäre.\n\nKein RDM, kein Cheating, kein FailRP — respektiere Mitspieler und das Team. Bei Fragen hilft dir das Team (F9 / !ticket).\n\nViel Spaß auf dem Server!",
+  "rules": [
+    {
+      "label": "Website / Regelwerk",
+      "url": "https://justgaming.community"
+    },
+    {
+      "label": "Discord",
+      "url": "https://discord.com/invite/justgamingcommunity"
+    }
+  ],
+  "show_staff": true,
+  "staff": [
+    {
+      "name": "Markgraf",
+      "group": "Communityleitung",
+      "steamid": "",
+      "steamid64": "",
+      "r": 236,
+      "g": 72,
+      "b": 153
+    }
+  ],
+  "updated_at": "2026-09-26T12:04:03Z",
+  "hostname_default": "JGC M:RP"
+}

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JGC M:RP — Laden</title>
+<style>
+  :root {
+    --bg: #050812;
+    --panel: rgba(10, 14, 26, 0.94);
+    --cyan: #22d3ee;
+    --magenta: #ec4899;
+    --text: #f0f4fc;
+    --muted: #949eb2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  body::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg, rgba(34,211,238,0.05) 0%, transparent 40%),
+      linear-gradient(225deg, rgba(236,72,153,0.05) 0%, transparent 45%),
+      polygon(0 0, 35% 0, 0 45%);
+    pointer-events: none;
+  }
+  .tri {
+    position: absolute; opacity: 0.07; pointer-events: none;
+  }
+  .tri-a {
+    top: 0; left: 0; width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 0 42vh 38vw;
+    border-color: transparent transparent var(--cyan) transparent;
+    opacity: 0.06;
+  }
+  .tri-b {
+    top: 0; right: 0; width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 0 55vh 42vw;
+    border-color: transparent transparent transparent var(--magenta);
+    opacity: 0.05;
+    transform: scaleX(-1);
+  }
+  .wrap {
+    position: absolute; inset: 5.5%;
+    border-top: 2px solid var(--cyan);
+    border-bottom: 2px solid var(--cyan);
+    background: var(--panel);
+    padding: 28px 34px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 0 40px rgba(34,211,238,0.08);
+  }
+  header { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+  .logo {
+    width: 68px; height: 68px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--magenta), var(--cyan));
+    display: grid; place-items: center; font-weight: 800; font-size: 18px; color: #050510;
+    flex-shrink: 0;
+  }
+  h1 {
+    font-size: 34px; letter-spacing: 0.5px; font-weight: 700;
+    text-shadow: 1px 0 12px rgba(236,72,153,0.25);
+  }
+  .sub {
+    color: var(--cyan); font-size: 14px; margin-top: 8px;
+    text-transform: uppercase; letter-spacing: 0.6px;
+  }
+  .cols {
+    flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; min-height: 0;
+  }
+  .col {
+    min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .col h2 {
+    color: var(--cyan); font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px;
+    padding-bottom: 10px; margin-bottom: 14px;
+    border-bottom: 2px solid rgba(34,211,238,0.75);
+    display: inline-block; min-width: 72px; align-self: flex-start;
+  }
+  .col-body {
+    flex: 1; overflow-y: auto; padding-right: 6px;
+    scrollbar-width: thin; scrollbar-color: rgba(34,211,238,0.5) transparent;
+  }
+  .col p, .col li { color: var(--text); font-size: 14px; line-height: 1.55; opacity: 0.92; }
+  .col ul { list-style: none; }
+  .col li { margin: 0 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col a { color: var(--text); text-decoration: none; }
+  .col a:hover { color: var(--cyan); }
+  .staff-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 0; border-bottom: 1px solid rgba(34,211,238,0.15);
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 6px; background: #1a2030;
+    border: 1px solid rgba(34,211,238,0.35); object-fit: cover; flex-shrink: 0;
+  }
+  .staff-name {
+    font-weight: 700; font-size: 13px; text-transform: uppercase;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .staff-group { font-size: 12px; margin-top: 2px; color: var(--cyan); }
+  .bar {
+    background: rgba(12,16,28,0.92); border: 1px solid rgba(34,211,238,0.4);
+    border-radius: 6px; padding: 11px 12px; margin-bottom: 10px;
+    display: flex; justify-content: space-between; gap: 10px; font-size: 13px;
+  }
+  .bar span:first-child { color: var(--muted); flex-shrink: 0; }
+  .bar span:last-child {
+    text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;
+  }
+  footer {
+    margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px;
+  }
+  .progress {
+    height: 4px; background: #151a28; border-radius: 2px; margin-top: 12px; overflow: hidden;
+  }
+  .progress > i {
+    display: block; height: 100%; width: 30%;
+    background: linear-gradient(90deg, var(--magenta), var(--cyan));
+    animation: load 2.2s ease-in-out infinite;
+  }
+  @keyframes load {
+    0% { width: 8%; margin-left: 0; }
+    50% { width: 55%; margin-left: 20%; }
+    100% { width: 12%; margin-left: 88%; }
+  }
+  @media (max-width: 900px) {
+    .cols { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .wrap { inset: 3%; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+  <div class="tri tri-a"></div>
+  <div class="tri tri-b"></div>
+  <div class="wrap">
+    <header>
+      <div class="logo">JGC</div>
+      <div>
+        <h1 id="title">JGC M:RP</h1>
+        <div class="sub" id="subtitle">YOU ARE NOW JOINING …</div>
+      </div>
+    </header>
+    <div class="cols">
+      <section class="col">
+        <h2>About</h2>
+        <div class="col-body"><p id="about"></p></div>
+      </section>
+      <section class="col">
+        <h2>Rules</h2>
+        <div class="col-body"><ul id="rules"></ul></div>
+      </section>
+      <section class="col">
+        <h2>Staff</h2>
+        <div class="col-body" id="staff"></div>
+      </section>
+      <section class="col">
+        <h2>Info</h2>
+        <div class="col-body">
+          <div class="bar"><span>Hostname</span><span id="host">…</span></div>
+          <div class="bar"><span>Max. Spieler</span><span id="maxp">…</span></div>
+          <div class="bar"><span>Map</span><span id="map">…</span></div>
+          <div class="bar"><span>Gamemode</span><span id="gm">jgc_rp</span></div>
+        </div>
+      </section>
+    </div>
+    <footer>
+      Just Gaming Community · Nato vs Russland MRP
+      <div class="progress"><i></i></div>
+    </footer>
+  </div>
+<script>
+(function () {
+  var DEFAULTS = {
+    title: "JGC M:RP",
+    subtitle_prefix: "YOU ARE NOW JOINING ",
+    about: "Willkommen bei Just Gaming Community — Nato vs Russland Military-RP!\n\nWir sind eine deutschsprachige MRP-Community mit Fokus auf faires Spiel, Teamwork und glaubwürdige Militär-Atmosphäre.\n\nKein RDM, kein Cheating, kein FailRP — respektiere Mitspieler und das Team. Bei Fragen hilft dir das Team (F9 / !ticket).\n\nViel Spaß auf dem Server!",
+    rules: [
+      { label: "Website / Regelwerk", url: "https://justgaming.community" },
+      { label: "Discord", url: "https://discord.com/invite/justgamingcommunity" }
+    ],
+    staff: [
+      { name: "Markgraf", group: "Communityleitung", steamid64: "", r: 236, g: 72, b: 153 }
+    ],
+    show_staff: true
+  };
+
+  var state = {
+    title: DEFAULTS.title,
+    subtitle_prefix: DEFAULTS.subtitle_prefix,
+    servername: "",
+    mapname: "",
+    maxplayers: "",
+    gamemode: "jgc_rp"
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function nl2br(s) {
+    return esc(s).replace(/\n/g, "<br/>");
+  }
+
+  function avatarUrl(s64) {
+    s64 = String(s64 || "");
+    if (!s64) return "";
+    return "https://avatars.cloudflare.steamstatic.com/" + s64 + ".jpg";
+  }
+
+  function applyConfig(cfg) {
+    cfg = cfg || {};
+    state.title = cfg.title || DEFAULTS.title;
+    state.subtitle_prefix = cfg.subtitle_prefix || DEFAULTS.subtitle_prefix;
+    document.getElementById("title").textContent = state.title;
+    updateSubtitle();
+
+    var about = cfg.about || DEFAULTS.about;
+    document.getElementById("about").innerHTML = nl2br(about);
+
+    var rules = (cfg.rules && cfg.rules.length) ? cfg.rules : DEFAULTS.rules;
+    var rulesEl = document.getElementById("rules");
+    rulesEl.innerHTML = rules.map(function (r, i) {
+      var label = esc((i + 1) + ". " + (r.label || "Link"));
+      if (r.url) {
+        return '<li><a href="' + esc(r.url) + '" target="_blank" rel="noopener">' + label + "</a></li>";
+      }
+      return "<li>" + label + "</li>";
+    }).join("");
+
+    var staffEl = document.getElementById("staff");
+    if (cfg.show_staff === false) {
+      staffEl.innerHTML = "<p style='color:var(--muted)'>Team-Anzeige deaktiviert.</p>";
+    } else {
+      var staff = (cfg.staff && cfg.staff.length) ? cfg.staff : DEFAULTS.staff;
+      staffEl.innerHTML = staff.map(function (s) {
+        var s64 = s.steamid64 || s.steamid || "";
+        var av = avatarUrl(s64);
+        var col = "rgb(" + (s.r || 34) + "," + (s.g || 211) + "," + (s.b || 238) + ")";
+        var img = av
+          ? '<img class="avatar" src="' + esc(av) + '" alt="" onerror="this.removeAttribute(\'src\')"/>'
+          : '<div class="avatar"></div>';
+        return '<div class="staff-row">' + img +
+          '<div style="min-width:0"><div class="staff-name">' + esc(String(s.name || "?").toUpperCase()) +
+          '</div><div class="staff-group" style="color:' + col + '">' + esc(s.group || "") +
+          "</div></div></div>";
+      }).join("");
+    }
+  }
+
+  function updateSubtitle() {
+    var name = state.servername || "…";
+    document.getElementById("subtitle").textContent =
+      String(state.subtitle_prefix || "YOU ARE NOW JOINING ").toUpperCase() + String(name).toUpperCase();
+  }
+
+  function setInfo() {
+    document.getElementById("host").textContent = state.servername || "…";
+    document.getElementById("map").textContent = state.mapname || "…";
+    document.getElementById("maxp").textContent = state.maxplayers || "…";
+    document.getElementById("gm").textContent = state.gamemode || "jgc_rp";
+  }
+
+  // GMod loading screen API
+  window.GameDetails = function (servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language) {
+    state.servername = servername || state.servername || "";
+    state.mapname = mapname || state.mapname || "";
+    state.maxplayers = maxplayers != null ? String(maxplayers) : state.maxplayers;
+    state.gamemode = gamemode || state.gamemode || "jgc_rp";
+    updateSubtitle();
+    setInfo();
+  };
+
+  // Query-string fallbacks (sv_loadingurl ?steamid=%s&map=%m)
+  (function parseQuery() {
+    var q = {};
+    location.search.replace(/^\?/, "").split("&").forEach(function (p) {
+      var kv = p.split("=");
+      if (kv[0]) q[decodeURIComponent(kv[0])] = decodeURIComponent((kv[1] || "").replace(/\+/g, " "));
+    });
+    if (q.map) state.mapname = q.map;
+    if (q.servername) state.servername = q.servername;
+    if (q.hostname) state.servername = q.hostname;
+    if (q.maxplayers) state.maxplayers = q.maxplayers;
+    if (q.gamemode) state.gamemode = q.gamemode;
+    setInfo();
+    updateSubtitle();
+  })();
+
+  applyConfig(DEFAULTS);
+
+  fetch("./config.json?t=" + Date.now(), { cache: "no-store" })
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(function (cfg) {
+      applyConfig(cfg);
+      setInfo();
+      updateSubtitle();
+    })
+    .catch(function () {
+      /* keep embedded defaults */
+    });
+})();
+</script>
+</body>
+</html>
