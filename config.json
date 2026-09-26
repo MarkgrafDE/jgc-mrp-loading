@@ -10,6 +10,10 @@
     {
       "label": "Discord",
       "url": "https://discord.com/invite/justgamingcommunity"
+    },
+    {
+      "label": "Steam-Gruppe",
+      "url": "https://steamcommunity.com/groups/justgamingcommunityde"
     }
   ],
   "updates": [],
@@ -58,5 +62,6 @@
     }
   ],
   "hostname_default": "JGC M:RP",
-  "updated_at": "2026-09-26T13:14:53Z"
+  "updated_at": "2026-09-26T13:14:53Z",
+  "steam_group_url": "https://steamcommunity.com/groups/justgamingcommunityde"
 }
