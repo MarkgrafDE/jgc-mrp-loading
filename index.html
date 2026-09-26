@@ -60,9 +60,11 @@
   header { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
   .logo {
     width: 68px; height: 68px; border-radius: 14px;
+    object-fit: contain; flex-shrink: 0;
     background: linear-gradient(135deg, var(--magenta), var(--cyan));
+  }
+  .logo-fallback {
     display: grid; place-items: center; font-weight: 800; font-size: 18px; color: #050510;
-    flex-shrink: 0;
   }
   h1 {
     font-size: 34px; letter-spacing: 0.5px; font-weight: 700;
@@ -142,7 +144,7 @@
   <div class="tri tri-b"></div>
   <div class="wrap">
     <header>
-      <div class="logo">JGC</div>
+      <img class="logo" src="logo.png" alt="JGC" onerror="this.outerHTML='<div class=\'logo logo-fallback\'>JGC</div>';" />
       <div>
         <h1 id="title">JGC M:RP</h1>
         <div class="sub" id="subtitle">YOU ARE NOW JOINING …</div>
@@ -211,10 +213,24 @@
     return esc(s).replace(/\n/g, "<br/>");
   }
 
-  function avatarUrl(s64) {
+  // Prefer staff[].avatar (hash URL from sync). Never use steamid64.jpg CDN.
+  function staffAvatarSrc(s) {
+    if (s && s.avatar) return String(s.avatar);
+    return "";
+  }
+
+  function resolveAvatarInto(img, s64) {
     s64 = String(s64 || "");
-    if (!s64) return "";
-    return "https://avatars.cloudflare.steamstatic.com/" + s64 + ".jpg";
+    if (!s64 || !img) return;
+    fetch("https://steamcommunity.com/profiles/" + encodeURIComponent(s64) + "/?xml=1", { mode: "cors" })
+      .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
+      .then(function (xml) {
+        var m = xml.match(/<avatarMedium><!\[CDATA\[(.*?)\]\]><\/avatarMedium>/)
+          || xml.match(/<avatarFull><!\[CDATA\[(.*?)\]\]><\/avatarFull>/)
+          || xml.match(/<avatarIcon><!\[CDATA\[(.*?)\]\]><\/avatarIcon>/);
+        if (m && m[1]) img.src = m[1];
+      })
+      .catch(function () { /* keep empty placeholder */ });
   }
 
   function applyConfig(cfg) {
@@ -242,18 +258,23 @@
       staffEl.innerHTML = "<p style='color:var(--muted)'>Team-Anzeige deaktiviert.</p>";
     } else {
       var staff = (cfg.staff && cfg.staff.length) ? cfg.staff : DEFAULTS.staff;
-      staffEl.innerHTML = staff.map(function (s) {
-        var s64 = s.steamid64 || s.steamid || "";
-        var av = avatarUrl(s64);
+      staffEl.innerHTML = staff.map(function (s, idx) {
+        var s64 = s.steamid64 || "";
+        var av = staffAvatarSrc(s);
         var col = "rgb(" + (s.r || 34) + "," + (s.g || 211) + "," + (s.b || 238) + ")";
         var img = av
-          ? '<img class="avatar" src="' + esc(av) + '" alt="" onerror="this.removeAttribute(\'src\')"/>'
-          : '<div class="avatar"></div>';
+          ? '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" src="' + esc(av) + '" alt="" onerror="this.removeAttribute(\'src\')"/>'
+          : '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" alt="" />';
         return '<div class="staff-row">' + img +
           '<div style="min-width:0"><div class="staff-name">' + esc(String(s.name || "?").toUpperCase()) +
           '</div><div class="staff-group" style="color:' + col + '">' + esc(s.group || "") +
           "</div></div></div>";
       }).join("");
+      Array.prototype.forEach.call(staffEl.querySelectorAll("img.avatar"), function (img) {
+        if (!img.getAttribute("src") && img.getAttribute("data-steamid64")) {
+          resolveAvatarInto(img, img.getAttribute("data-steamid64"));
+        }
+      });
     }
   }
 
