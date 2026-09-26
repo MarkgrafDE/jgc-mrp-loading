@@ -5,14 +5,16 @@
   "rules": [
     {
       "label": "Website / Regelwerk",
-      "url": "https://justgaming.community"
+      "url": "https://www.justgamingcommunity.de"
     },
     {
       "label": "Discord",
       "url": "https://discord.com/invite/justgamingcommunity"
     }
   ],
+  "updates": [],
   "show_staff": true,
+  "autoshow": false,
   "staff": [
     {
       "b": 153,
@@ -21,7 +23,7 @@
       "group": "Communityleitung",
       "r": 236,
       "steamid64": "76561198430371839",
-      "name": "Communityleitung",
+      "name": "Markgraf",
       "steamid": "STEAM_0:1:235053055"
     },
     {
@@ -41,7 +43,7 @@
       "group": "C-Manager",
       "r": 236,
       "steamid64": "76561198342149474",
-      "name": "STEAM_0:0:190941873",
+      "name": "ˢᴳ Abra Baba",
       "steamid": "STEAM_0:0:190941873"
     },
     {
@@ -56,12 +58,5 @@
     }
   ],
   "hostname_default": "JGC M:RP",
-  "updated_at": "2026-09-26T12:26:28Z",
-  "updates": [
-    {
-      "title": "Willkommen",
-      "body": "Nutze !ticket oder F9 bei Fragen an das Team. Viel Spaß!"
-    }
-  ],
-  "autoshow": true
+  "updated_at": "2026-09-26T12:45:32Z"
 }

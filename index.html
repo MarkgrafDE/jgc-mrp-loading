@@ -15,129 +15,178 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background: var(--bg);
     color: var(--text);
     font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     overflow: hidden;
   }
+  /* GMod CEF: percentage height often collapses — pin to viewport */
+  html {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+  body {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
   body::before {
     content: "";
-    position: absolute; inset: 0;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     background:
-      linear-gradient(135deg, rgba(34,211,238,0.05) 0%, transparent 40%),
-      linear-gradient(225deg, rgba(236,72,153,0.05) 0%, transparent 45%),
-      polygon(0 0, 35% 0, 0 45%);
+      linear-gradient(135deg, rgba(34,211,238,0.07) 0%, transparent 42%),
+      linear-gradient(225deg, rgba(236,72,153,0.07) 0%, transparent 48%);
     pointer-events: none;
+    z-index: 0;
   }
   .tri {
-    position: absolute; opacity: 0.07; pointer-events: none;
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
   }
   .tri-a {
     top: 0; left: 0; width: 0; height: 0;
     border-style: solid;
-    border-width: 0 0 42vh 38vw;
+    border-width: 0 0 48vh 40vw;
     border-color: transparent transparent var(--cyan) transparent;
     opacity: 0.06;
   }
   .tri-b {
     top: 0; right: 0; width: 0; height: 0;
     border-style: solid;
-    border-width: 0 0 55vh 42vw;
+    border-width: 0 0 58vh 44vw;
     border-color: transparent transparent transparent var(--magenta);
     opacity: 0.05;
     transform: scaleX(-1);
   }
   .wrap {
-    position: absolute; inset: 5.5%;
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
     border-top: 2px solid var(--cyan);
     border-bottom: 2px solid var(--cyan);
     background: var(--panel);
-    padding: 28px 34px;
-    display: flex; flex-direction: column;
+    padding: 20px 26px 16px;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 0 40px rgba(34,211,238,0.08);
+    z-index: 1;
+    min-height: 0;
   }
-  header { display: flex; align-items: center; gap: 18px; margin-bottom: 26px; }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+    flex-shrink: 0;
+  }
   .logo {
-    width: 68px; height: 68px; border-radius: 14px;
+    width: 64px; height: 64px; border-radius: 14px;
     object-fit: contain; flex-shrink: 0;
     background: linear-gradient(135deg, var(--magenta), var(--cyan));
   }
   .logo-fallback {
-    display: grid; place-items: center; font-weight: 800; font-size: 18px; color: #050510;
+    display: table-cell; text-align: center; vertical-align: middle;
+    font-weight: 800; font-size: 18px; color: #050510;
+    width: 64px; height: 64px;
   }
   h1 {
-    font-size: 34px; letter-spacing: 0.5px; font-weight: 700;
+    font-size: 30px; letter-spacing: 0.5px; font-weight: 700;
     text-shadow: 1px 0 12px rgba(236,72,153,0.25);
   }
   .sub {
-    color: var(--cyan); font-size: 14px; margin-top: 8px;
+    color: var(--cyan); font-size: 13px; margin-top: 6px;
     text-transform: uppercase; letter-spacing: 0.6px;
   }
   .cols {
-    flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; min-height: 0;
+    flex: 1;
+    display: -ms-grid;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 18px;
+    min-height: 0;
+    overflow: hidden;
   }
   .col {
-    min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
   }
   .col h2 {
-    color: var(--cyan); font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px;
-    padding-bottom: 10px; margin-bottom: 14px;
+    color: var(--cyan); font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px;
+    padding-bottom: 8px; margin-bottom: 10px;
     border-bottom: 2px solid rgba(34,211,238,0.75);
     display: inline-block; min-width: 72px; align-self: flex-start;
+    flex-shrink: 0;
   }
   .col-body {
-    flex: 1; overflow-y: auto; padding-right: 6px;
-    scrollbar-width: thin; scrollbar-color: rgba(34,211,238,0.5) transparent;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(34,211,238,0.5) transparent;
   }
-  .col p, .col li { color: var(--text); font-size: 14px; line-height: 1.55; opacity: 0.92; }
+  .col p, .col li { color: var(--text); font-size: 13px; line-height: 1.55; opacity: 0.92; }
   .col ul { list-style: none; }
-  .col li { margin: 0 0 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col li { margin: 0 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .col a { color: var(--text); text-decoration: none; }
   .col a:hover { color: var(--cyan); }
   .rules-mini {
-    margin-top: 16px; padding-top: 12px;
+    margin-top: 14px; padding-top: 10px;
     border-top: 1px solid rgba(34,211,238,0.25);
   }
   .rules-mini h3 {
-    color: var(--cyan); font-size: 13px; text-transform: uppercase;
+    color: var(--cyan); font-size: 12px; text-transform: uppercase;
     letter-spacing: 0.4px; margin-bottom: 8px;
   }
   .upd {
-    margin-bottom: 14px; padding-bottom: 12px;
+    margin-bottom: 12px; padding-bottom: 10px;
     border-bottom: 1px solid rgba(34,211,238,0.15);
   }
   .upd-title {
-    font-weight: 700; font-size: 14px; color: var(--cyan); margin-bottom: 4px;
+    font-weight: 700; font-size: 13px; color: var(--cyan); margin-bottom: 4px;
   }
-  .upd-body { font-size: 13px; line-height: 1.5; opacity: 0.92; }
+  .upd-body { font-size: 12px; line-height: 1.5; opacity: 0.92; }
   .staff-row {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 0; border-bottom: 1px solid rgba(34,211,238,0.15);
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid rgba(34,211,238,0.15);
   }
   .avatar {
-    width: 36px; height: 36px; border-radius: 6px; background: #1a2030;
+    width: 34px; height: 34px; border-radius: 6px; background: #1a2030;
     border: 1px solid rgba(34,211,238,0.35); object-fit: cover; flex-shrink: 0;
   }
   .staff-name {
-    font-weight: 700; font-size: 13px; text-transform: uppercase;
+    font-weight: 700; font-size: 12px; text-transform: uppercase;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .staff-group { font-size: 12px; margin-top: 2px; color: var(--cyan); }
+  .staff-group { font-size: 11px; margin-top: 2px; color: var(--cyan); }
   .bar {
     background: rgba(12,16,28,0.92); border: 1px solid rgba(34,211,238,0.4);
-    border-radius: 6px; padding: 11px 12px; margin-bottom: 10px;
-    display: flex; justify-content: space-between; gap: 10px; font-size: 13px;
+    border-radius: 6px; padding: 10px 12px; margin-bottom: 8px;
+    display: flex; justify-content: space-between; gap: 10px; font-size: 12px;
   }
   .bar span:first-child { color: var(--muted); flex-shrink: 0; }
   .bar span:last-child {
     text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;
   }
   footer {
-    margin-top: 16px; text-align: center; color: var(--muted); font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 12px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
   }
   .progress {
-    height: 4px; background: #151a28; border-radius: 2px; margin-top: 12px; overflow: hidden;
+    height: 4px; background: #151a28; border-radius: 2px; margin-top: 10px; overflow: hidden;
   }
   .progress > i {
     display: block; height: 100%; width: 30%;
@@ -150,8 +199,8 @@
     100% { width: 12%; margin-left: 88%; }
   }
   @media (max-width: 900px) {
-    .cols { grid-template-columns: 1fr 1fr; gap: 14px; }
-    .wrap { inset: 3%; padding: 16px; }
+    .cols { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .wrap { top: 6px; left: 6px; right: 6px; bottom: 6px; padding: 12px; }
   }
 </style>
 </head>
@@ -235,7 +284,19 @@
     return esc(s).replace(/\n/g, "<br/>");
   }
 
-  // Prefer staff[].avatar (hash URL from sync). Never use steamid64.jpg CDN.
+  function looksLikeSteamId(s) {
+    s = String(s || "");
+    return /^STEAM_\d+:\d+:\d+$/i.test(s) || /^7656119\d{10,}$/.test(s);
+  }
+
+  function displayStaffName(s) {
+    var n = String((s && s.name) || "").trim();
+    if (!n || looksLikeSteamId(n) || n === String((s && s.steamid) || "")) {
+      return "Unbekannt";
+    }
+    return n;
+  }
+
   function staffAvatarSrc(s) {
     if (s && s.avatar) return String(s.avatar);
     return "";
@@ -301,7 +362,7 @@
           ? '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" src="' + esc(av) + '" alt="" onerror="this.removeAttribute(\'src\')"/>'
           : '<img class="avatar" data-idx="' + idx + '" data-steamid64="' + esc(s64) + '" alt="" />';
         return '<div class="staff-row">' + img +
-          '<div style="min-width:0"><div class="staff-name">' + esc(String(s.name || "?").toUpperCase()) +
+          '<div style="min-width:0"><div class="staff-name">' + esc(displayStaffName(s).toUpperCase()) +
           '</div><div class="staff-group" style="color:' + col + '">' + esc(s.group || "") +
           "</div></div></div>";
       }).join("");
@@ -326,7 +387,6 @@
     document.getElementById("gm").textContent = state.gamemode || "jgc_rp";
   }
 
-  // GMod loading screen API
   window.GameDetails = function (servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, language) {
     state.servername = servername || state.servername || "";
     state.mapname = mapname || state.mapname || "";
@@ -336,7 +396,6 @@
     setInfo();
   };
 
-  // Query-string fallbacks (sv_loadingurl ?steamid=%s&map=%m)
   (function parseQuery() {
     var q = {};
     location.search.replace(/^\?/, "").split("&").forEach(function (p) {
@@ -354,7 +413,7 @@
 
   applyConfig(DEFAULTS);
 
-  fetch("./config.json?t=" + Date.now(), { cache: "no-store" })
+  fetch("./config.json?_=" + Date.now(), { cache: "no-store" })
     .then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
       return r.json();
