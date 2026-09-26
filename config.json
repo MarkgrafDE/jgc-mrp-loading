@@ -50,7 +50,7 @@
       "b": 238,
       "avatar": "https://avatars.fastly.steamstatic.com/b93f04b9194fba8980a2dc74947d47d0087ba113_medium.jpg",
       "g": 211,
-      "group": "Superadmin",
+      "group": "Moderator",
       "r": 34,
       "steamid64": "76561199528266139",
       "name": "[LOS] Jason_Flipp",
@@ -58,5 +58,5 @@
     }
   ],
   "hostname_default": "JGC M:RP",
-  "updated_at": "2026-09-26T14:25:49Z"
+  "updated_at": "2026-09-26T14:32:24Z"
 }
