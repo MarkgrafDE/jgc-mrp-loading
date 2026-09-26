@@ -13,3 +13,10 @@ sv_loadingurl "https://markgrafde.github.io/jgc-mrp-loading/?steamid=%s&map=%m"
 ```
 
 In-game source of truth: `jgc_rp` JoinScreen module (`!joinscreen_edit`).
+
+
+## Actions sync note
+
+The file `.github/workflows/sync-loading.yml` is prepared locally and SFTP secrets are set on the repo.
+Pushing workflow files requires a GitHub token with the `workflow` scope (current `gh` OAuth app lacks it).
+Until that is granted, run `scripts/sync-from-sftp.sh` periodically and `git push`, or re-auth `gh` with workflow scope and push the workflow.
