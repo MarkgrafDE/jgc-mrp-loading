@@ -242,19 +242,31 @@
     display: flex; justify-content: space-between; gap: 10px; font-size: 12px;
   }
   .bar span:first-child { color: var(--muted); flex-shrink: 0; }
-  .bar span:last-child {
+  .bar span.bar-v {
     text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;
   }
-  .bar.host { align-items: flex-start; }
+  .bar.host {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+  .host-k {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
   #host {
-    text-align: right;
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
     white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    max-width: 74%;
-    font-size: 11px;
-    line-height: 1.3;
-    word-break: break-word;
+    word-wrap: break-word;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.45;
+    font-weight: 600;
   }
   .steam-cta {
     display: block;
@@ -359,10 +371,10 @@
       <section class="col">
         <h2>Info</h2>
         <div class="col-body">
-          <div class="bar host"><span>Hostname</span><span id="host">…</span></div>
-          <div class="bar"><span>Max. Spieler</span><span id="maxp">…</span></div>
-          <div class="bar"><span>Map</span><span id="map">…</span></div>
-          <div class="bar"><span>Gamemode</span><span id="gm">jgc_rp</span></div>
+          <div class="bar host"><div class="host-k">Hostname</div><div id="host">…</div></div>
+          <div class="bar"><span>Max. Spieler</span><span class="bar-v" id="maxp">…</span></div>
+          <div class="bar"><span>Map</span><span class="bar-v" id="map">…</span></div>
+          <div class="bar"><span>Gamemode</span><span class="bar-v" id="gm">jgc_rp</span></div>
           <a class="steam-cta" id="steamCta" href="https://steamcommunity.com/groups/justgamingcommunityde" target="_blank" rel="noopener">
             <strong>Steam-Gruppe beitreten</strong>
             <small>Belohnungen · Community</small>
