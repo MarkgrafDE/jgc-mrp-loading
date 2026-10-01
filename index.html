@@ -245,6 +245,17 @@
   .bar span:last-child {
     text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%;
   }
+  .bar.host { align-items: flex-start; }
+  #host {
+    text-align: right;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    max-width: 74%;
+    font-size: 11px;
+    line-height: 1.3;
+    word-break: break-word;
+  }
   .steam-cta {
     display: block;
     margin-top: 10px;
@@ -348,7 +359,7 @@
       <section class="col">
         <h2>Info</h2>
         <div class="col-body">
-          <div class="bar"><span>Hostname</span><span id="host">…</span></div>
+          <div class="bar host"><span>Hostname</span><span id="host">…</span></div>
           <div class="bar"><span>Max. Spieler</span><span id="maxp">…</span></div>
           <div class="bar"><span>Map</span><span id="map">…</span></div>
           <div class="bar"><span>Gamemode</span><span id="gm">jgc_rp</span></div>
